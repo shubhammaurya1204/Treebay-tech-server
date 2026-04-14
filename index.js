@@ -1,11 +1,15 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import dotenv from 'dotenv';
+dotenv.config();
 
-const Contact = require('./models/Contact');
-const authRoutes     = require('./routes/auth');
-const contactsRoutes = require('./routes/contacts');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+
+import Contact from './models/Contact.js';
+import authRoutes from './routes/auth.js';
+import contactsRoutes from './routes/contacts.js';
+import JobRouter from './routes/job.routes.js';
+import ApplicationRouter from './routes/application.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -46,6 +50,10 @@ app.post('/api/contact', async (req, res) => {
 // Admin Routes
 app.use('/api/admin', authRoutes);
 app.use('/api/admin/contacts', contactsRoutes);
+
+// Career Routes
+app.use("/api/jobs", JobRouter);
+app.use("/api/applications", ApplicationRouter);
 
 // Start server
 app.listen(PORT, () => {
